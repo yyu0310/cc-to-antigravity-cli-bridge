@@ -1,0 +1,31 @@
+# cc-to-antigravity-cli-bridge
+
+> Drive Google's Antigravity CLI (agy) from Claude Code: system-prompt sharing plus a research-method prompt prefix. CLI counterpart to claude-code-antigravity-ide-bridge.
+
+## What this repo does
+
+Antigravity CLI (agy) reaches Gemini Pro/Flash on a Google subscription. This repo covers driving it from Claude Code:
+
+1. Share the system prompt by symlinking AGENTS.md to CLAUDE.md (agy reads AGENTS.md natively)
+2. research-prefix.md: a model-agnostic research-method prompt prefix for any headless CLI (agy -p, grok -p, claude -p)
+3. scripts/ccagy.sh: wrapper that prepends the prefix and runs agy -p from a clean temp cwd
+
+## Key facts
+
+- agy runs on the Gemini subscription quota when logged in with Google; setting GEMINI_API_KEY forces API billing instead
+- agy -p is the non-interactive one-shot mode; --model takes the exact display name from `agy models`
+- No memory API and no documented hook schema as of 2026-07, so memory sync and hook adapters (as in the Grok bridge) are not possible
+
+## Limitations
+
+- Not a Claude Code replacement: no memory sync, no hook-level security
+- Antigravity quotas have been cut aggressively through 2026
+- Useful mainly for occasional Gemini or Google-grounded search with the research prefix
+
+## Files
+
+- README.md / README.zh-TW.md / README.zh-CN.md
+- AGENTS.md (source of truth); CLAUDE.md symlink
+- research-prefix.md
+- scripts/ccagy.sh
+- LICENSE (MIT)
