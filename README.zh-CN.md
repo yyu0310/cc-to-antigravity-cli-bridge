@@ -1,6 +1,6 @@
 # Claude Code 驱动 Antigravity CLI（agy）桥接
 
-[繁體中文](README.md) · [English](README.en.md)
+[繁體中文](README.zh-TW.md) · [English](README.md)
 
 > 文中 **CC** = Claude Code，**agy** = Antigravity CLI。
 
@@ -87,5 +87,5 @@ ln -s CLAUDE.md AGENTS.md
 
 - `research-prefix.md`：研究方法 prompt 前缀（英文）
 - `scripts/ccagy.sh`：前缀加 `agy -p`、从干净 cwd 跑
-- `README.md`（繁中，默认）／`README.en.md`／`README.zh-CN.md`
+- `README.md`（EN，默认）／`README.zh-TW.md`／`README.zh-CN.md`
 - `AGENTS.md`：共享 system prompt；`CLAUDE.md` 是指向它的 symlink
