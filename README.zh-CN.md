@@ -1,6 +1,8 @@
 # Claude Code 驱动 Antigravity CLI（agy）桥接
 
-> 本文以 **CC** 作为 Claude Code 的简称，以 **agy** 作为 Antigravity CLI 的简称。
+[繁體中文](README.md) · [English](README.en.md)
+
+> 文中 **CC** = Claude Code，**agy** = Antigravity CLI。
 
 从 Claude Code 驱动 Google 的 Antigravity CLI（`agy`）：用你已有的 Gemini 订阅做搜索与辅助、与 Claude 共用一份 system prompt，需要时再垫一段研究方法前缀拉高 headless 回答质量。
 
@@ -85,5 +87,5 @@ ln -s CLAUDE.md AGENTS.md
 
 - `research-prefix.md`：研究方法 prompt 前缀（英文）
 - `scripts/ccagy.sh`：前缀加 `agy -p`、从干净 cwd 跑
-- `README.md` / `README.zh-TW.md` / `README.zh-CN.md`：EN / zh-TW / zh-CN
+- `README.md`（繁中，默认）／`README.en.md`／`README.zh-CN.md`
 - `AGENTS.md`：共享 system prompt；`CLAUDE.md` 是指向它的 symlink

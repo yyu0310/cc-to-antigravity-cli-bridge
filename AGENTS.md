@@ -12,7 +12,7 @@ The honest scope is small. As of 2026-07, `agy` has no native memory API and no 
 
 - `research-prefix.md`: model-agnostic research-method prompt prefix (works for `agy -p`, `grok -p`, `claude -p`)
 - `scripts/ccagy.sh`: wrapper that prepends the prefix and runs `agy -p` from a clean temp cwd
-- `README*.md`: setup and findings in EN / zh-TW / zh-CN
+- `README.md` (zh-TW default), `README.en.md`, `README.zh-CN.md`
 - `AGENTS.md` / `CLAUDE.md`: shared system prompt (symlink)
 
 ## Key facts
