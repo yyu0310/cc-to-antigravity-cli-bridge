@@ -10,7 +10,7 @@ CLI counterpart to [claude-code-antigravity-ide-bridge](https://github.com/yyu03
 
 ## Why this is useful
 
-Claude Code stays the daily driver. `agy` is the complementary lane — not a replacement, and not a downgrade.
+Claude Code stays the daily driver; `agy` is the complementary lane.
 
 ### 1. Search that survives anti-bot
 
@@ -55,7 +55,7 @@ agy -p "your question" --model "Gemini 3.1 Pro (High)"
 
 `ccagy.sh` prepends the research prefix and runs from a temp directory so project `AGENTS.md` / rules do not leak into a pure research query.
 
-Measured effect (same Gemini 3.1 Pro, same query): without the prefix — flat list, vague sources, no dates; with it — decision first, named sources with dates, facts separated from opinion, and which search angles were used.
+Measured effect (same Gemini 3.1 Pro, same query): without the prefix, a flat list with vague sources and no dates; with it, a decision-first answer, named sources with dates, facts separated from opinion, and which search angles were used.
 
 ## Share your system prompt
 
@@ -85,7 +85,7 @@ If you want a full Claude environment replacement, use Claude Code. If you want 
 
 ## Files
 
-- `research-prefix.md` — research-method prompt prefix (English)
-- `scripts/ccagy.sh` — prefix + `agy -p` from a clean cwd
+- `research-prefix.md`: research-method prompt prefix (English)
+- `scripts/ccagy.sh`: prefix + `agy -p` from a clean cwd
 - `README.md` (EN, default) / `README.zh-TW.md` / `README.zh-CN.md`
-- `AGENTS.md` — shared system prompt; `CLAUDE.md` is a symlink to it
+- `AGENTS.md`: shared system prompt; `CLAUDE.md` is a symlink to it
