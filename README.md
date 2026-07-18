@@ -2,13 +2,31 @@
 
 > **CC** = Claude Code, **agy** = Antigravity CLI throughout.
 
-Drive Google's Antigravity CLI (`agy`) from Claude Code to reach Gemini Pro / Flash on your subscription, with a research-method prefix that lifts search quality. This is the CLI counterpart to [claude-code-antigravity-ide-bridge](https://github.com/yyu0310/claude-code-antigravity-ide-bridge), and the third in a series of CC harness bridges (Grok, Codex, Antigravity).
+Drive Google's Antigravity CLI (`agy`) from Claude Code: use your Gemini subscription for search and model work that pairs well with Claude, share one system prompt, and optionally lift headless answers with a research-method prefix.
 
-> **Honest scope.** As of 2026-07, `agy` has no native memory API and no documented hook schema, so a full bridge like the Grok one (memory sync, hook adapters) is not possible here. Two things work and are worth having: sharing your system prompt, and a model-agnostic research-method prompt prefix. If you want a Claude environment replacement, this is not it; see [Verdict](#verdict).
+CLI counterpart to [claude-code-antigravity-ide-bridge](https://github.com/yyu0310/claude-code-antigravity-ide-bridge). Third in the CC harness bridge series (Grok, Codex, Antigravity).
 
-## Why agy at all
+## Why this is useful
 
-The old Gemini CLI was deprecated on 2026-06-18. The best way to reach Gemini Pro / Flash on a subscription today is the Antigravity CLI (`agy`).
+Claude Code stays the daily driver. `agy` is the complementary lane — not a replacement, and not a downgrade.
+
+### 1. Search that survives anti-bot
+
+Claude's `web_search` / `web_fetch` often fail on pages with light anti-bot protection. Gemini Pro through `agy` frequently still reaches those sources. Run both and compare: when Claude comes back empty, Gemini may still return usable material. That dual-track check is the main day-to-day value.
+
+### 2. Use the Gemini quota you already pay for (or got free)
+
+Many people still have an active Gemini student year from the 2025 promo, or another Google subscription with Pro / Flash access. After switching daily work to Claude, that quota often sits unused. `agy -p` turns it into one-shot research and assist calls without leaving the terminal.
+
+Old Gemini CLI was deprecated on 2026-06-18; subscription access today goes through Antigravity CLI (`agy`).
+
+### 3. Extra models next to Claude
+
+`agy` is not Gemini-only. You can also call Claude Sonnet 4.6 and Claude Opus 4.6 through it for light assist work: second opinions, parallel drafts, overflow when you want another pass without burning your main CC session the same way.
+
+### 4. Better headless answers with a research prefix
+
+Bare `agy -p` (or `grok -p` / `claude -p`) tends to give vague sources and mixed fact/opinion. [`research-prefix.md`](research-prefix.md) is a short, model-agnostic prefix that asks for multi-angle search, dated sources, and a decision-first answer. `scripts/ccagy.sh` applies it for you.
 
 ## Install
 
@@ -22,21 +40,30 @@ curl -fsSL https://antigravity.google/cli/install.sh | bash
 
 Run `agy` once, choose "Login with Google", and sign in with the account that holds your Gemini subscription. Do not set `GEMINI_API_KEY`: if it is present, the CLI bills through the API instead of your subscription.
 
-## What works
+## Quick start
 
-### 1. Share your system prompt
+```bash
+# research with prefix, clean cwd (recommended)
+scripts/ccagy.sh "best fried chicken in Taipei"
+scripts/ccagy.sh "your question" "Gemini 3.5 Flash (High)"
 
-`agy` reads `AGENTS.md` from the working directory. Symlink it to your existing `CLAUDE.md` so both read one file:
+# raw one-shot
+agy -p "your question" --model "Gemini 3.1 Pro (High)"
+```
+
+`ccagy.sh` prepends the research prefix and runs from a temp directory so project `AGENTS.md` / rules do not leak into a pure research query.
+
+Measured effect (same Gemini 3.1 Pro, same query): without the prefix — flat list, vague sources, no dates; with it — decision first, named sources with dates, facts separated from opinion, and which search angles were used.
+
+## Share your system prompt
+
+`agy` reads `AGENTS.md` from the working directory. Symlink it to your existing `CLAUDE.md` so both tools share one file:
 
 ```bash
 ln -s CLAUDE.md AGENTS.md
 ```
 
-### 2. Drive it non-interactively
-
-```bash
-agy -p "your question" --model "Gemini 3.1 Pro (High)"
-```
+## Models
 
 `--model` takes the exact display name from `agy models`:
 
@@ -48,33 +75,15 @@ agy -p "your question" --model "Gemini 3.1 Pro (High)"
 | Claude Opus 4.6 | Thinking |
 | GPT-OSS 120B | Medium |
 
-### 3. Research-method prefix (the reusable win)
+## Scope notes
 
-Headless CLIs run loose by default: vague sources, facts mixed with speculation, no dates. Prepend [`research-prefix.md`](research-prefix.md) to lift the quality of any headless AI CLI (`agy -p`, `grok -p`, `claude -p`). It is model-agnostic.
+This is a thin bridge on purpose. As of 2026-07, `agy` has no native memory API and no documented hook schema, so you will not get Grok-bridge-style memory sync or hook adapters here. Soft rules live in `AGENTS.md`; per-conversation state under `~/.gemini/antigravity-cli/brain/` is not a shared knowledge base.
 
-The bundled wrapper does this for you:
-
-```bash
-scripts/ccagy.sh "best fried chicken in Taipei"
-scripts/ccagy.sh "your question" "Gemini 3.5 Flash (High)"
-```
-
-`ccagy.sh` prepends the prefix and runs `agy -p` from a clean temp directory, so no project `AGENTS.md` or rules leak into a pure research query.
-
-Measured effect (same Gemini 3.1 Pro, same query): without the prefix, a flat list with vague sources and no dates; with it, a decision-first answer, named sources with dates, verified facts separated from opinion, and an explicit note of which search angles were used.
-
-## What does not work
-
-- **No memory sync.** The `~/.gemini/antigravity-cli/brain/<id>/` store holds per-conversation working state, not a queryable knowledge base, and there is no memory API to sync Claude Code memory into. Third-party tools (Mem0, claude-mem) work around this by writing into `AGENTS.md`.
-- **No hook-level security.** `agy` has no documented hook schema, so the hook adapter approach from the Grok bridge does not port. Any rules live in `AGENTS.md` as soft, AI-enforced text only.
-
-## Verdict
-
-Use this for one thing: occasional Gemini or Google-grounded search, driven with the research prefix. Antigravity's quotas have been cut aggressively through 2026, and there is no memory or hook layer, so it is not a Claude Code replacement. For everything else, Claude Code stays the daily driver.
+If you want a full Claude environment replacement, use Claude Code. If you want stronger search, better use of a Gemini subscription, and an easy second model path, this repo is for that.
 
 ## Files
 
-- `research-prefix.md`: research-method prompt prefix (English)
-- `scripts/ccagy.sh`: wrapper, prefix plus `agy -p` from a clean cwd
-- `README.md` / `README.zh-TW.md` / `README.zh-CN.md`: EN / zh-TW / zh-CN
-- `AGENTS.md`: shared system prompt; `CLAUDE.md` is a symlink to it
+- `research-prefix.md` — research-method prompt prefix (English)
+- `scripts/ccagy.sh` — prefix + `agy -p` from a clean cwd
+- `README.md` / `README.zh-TW.md` / `README.zh-CN.md` — EN / zh-TW / zh-CN
+- `AGENTS.md` — shared system prompt; `CLAUDE.md` is a symlink to it
