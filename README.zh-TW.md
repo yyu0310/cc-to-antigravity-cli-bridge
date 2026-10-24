@@ -47,13 +47,13 @@ curl -fsSL https://antigravity.google/cli/install.sh | bash
 ```bash
 # 研究前綴 + 乾淨 cwd（建議）
 scripts/ccagy.sh "台北市好吃的炸雞店"
-scripts/ccagy.sh "你的問題" "Gemini 3.5 Flash (High)"
+scripts/ccagy.sh "你的問題" "Gemini 3.8 Flash (Medium)"
 
 # 直接 one-shot
-agy -p "你的問題" --model "Gemini 3.1 Pro (High)"
+agy -p "你的問題" --model "Gemini 3.8 Flash (High)"
 ```
 
-`ccagy.sh` 會墊上研究前綴，並從暫存目錄執行，避免專案的 `AGENTS.md` / 規則污染純研究查詢。
+`ccagy.sh` 會墊上研究前綴，並從暫存目錄執行，避免專案的 `AGENTS.md` / 規則污染純研究查詢。不帶模型參數時，它會從 `agy models` 挑最新的 Gemini Pro (High)，沒有 Pro 就挑最新的 Flash (High)，模型改名也不會壞。
 
 實測效果（同一個 Gemini 3.1 Pro、同一題）：沒有前綴時是平鋪列點、來源含糊、沒有日期；加了前綴後是結論先行、具名來源加日期、查證事實與主觀分開，還會說明用了哪幾個搜尋角度。
 
@@ -67,12 +67,11 @@ ln -s CLAUDE.md AGENTS.md
 
 ## 模型
 
-`--model` 的值是 `agy models` 列出的逐字顯示名稱：
+`--model` 的值是 `agy models` 列出的逐字顯示名稱。清單常常變動，以下是 2026-10-25 的版本：
 
 | 模型 | 推理檔位 |
 |---|---|
-| Gemini 3.5 Flash | Low / Medium / High |
-| Gemini 3.1 Pro | Low / High |
+| Gemini 3.8 Flash | Low / Medium / High |
 | Claude Sonnet 4.6 | Thinking |
 | Claude Opus 4.6 | Thinking |
 | GPT-OSS 120B | Medium |

@@ -47,13 +47,13 @@ Run `agy` once, choose "Login with Google", and sign in with the account that ho
 ```bash
 # research with prefix, clean cwd (recommended)
 scripts/ccagy.sh "best fried chicken in Taipei"
-scripts/ccagy.sh "your question" "Gemini 3.5 Flash (High)"
+scripts/ccagy.sh "your question" "Gemini 3.8 Flash (Medium)"
 
 # raw one-shot
-agy -p "your question" --model "Gemini 3.1 Pro (High)"
+agy -p "your question" --model "Gemini 3.8 Flash (High)"
 ```
 
-`ccagy.sh` prepends the research prefix and runs from a temp directory so project `AGENTS.md` / rules do not leak into a pure research query.
+`ccagy.sh` prepends the research prefix and runs from a temp directory so project `AGENTS.md` / rules do not leak into a pure research query. With no model argument it picks the newest Gemini Pro (High) from `agy models`, or the newest Flash (High) when no Pro is listed, so a model rename does not break it.
 
 Measured effect (same Gemini 3.1 Pro, same query): without the prefix, a flat list with vague sources and no dates; with it, a decision-first answer, named sources with dates, facts separated from opinion, and which search angles were used.
 
@@ -67,12 +67,11 @@ ln -s CLAUDE.md AGENTS.md
 
 ## Models
 
-`--model` takes the exact display name from `agy models`:
+`--model` takes the exact display name from `agy models`. The list changes often; this is what it showed on 2026-10-25:
 
 | Model | Reasoning tiers |
 |---|---|
-| Gemini 3.5 Flash | Low / Medium / High |
-| Gemini 3.1 Pro | Low / High |
+| Gemini 3.8 Flash | Low / Medium / High |
 | Claude Sonnet 4.6 | Thinking |
 | Claude Opus 4.6 | Thinking |
 | GPT-OSS 120B | Medium |
